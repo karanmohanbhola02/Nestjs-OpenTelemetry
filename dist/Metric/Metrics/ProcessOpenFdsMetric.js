@@ -14,12 +14,10 @@ const MetricService_1 = require("../MetricService");
 const common_1 = require("@nestjs/common");
 const fs = require("fs");
 let ProcessOpenFdsMetric = class ProcessOpenFdsMetric {
-    metricService;
-    name = 'process_open_fds';
-    description = 'Number of open file descriptors.';
-    valueObserver;
     constructor(metricService) {
         this.metricService = metricService;
+        this.name = 'process_open_fds';
+        this.description = 'Number of open file descriptors.';
     }
     async inject() {
         if (process.platform !== 'linux') {
@@ -37,7 +35,7 @@ let ProcessOpenFdsMetric = class ProcessOpenFdsMetric {
             const fds = fs.readdirSync('/dev/fd/');
             observerResult.observe(fds.length - 1, this.metricService.getLabels());
         }
-        catch {
+        catch (_a) {
         }
     }
 };

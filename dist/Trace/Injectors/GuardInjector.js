@@ -15,18 +15,18 @@ const core_1 = require("@nestjs/core");
 const BaseTraceInjector_1 = require("./BaseTraceInjector");
 const constants_1 = require("@nestjs/common/constants");
 let GuardInjector = class GuardInjector extends BaseTraceInjector_1.BaseTraceInjector {
-    modulesContainer;
-    loggerService = new common_1.Logger();
     constructor(modulesContainer) {
         super(modulesContainer);
         this.modulesContainer = modulesContainer;
+        this.loggerService = new common_1.Logger();
     }
     inject() {
         const controllers = this.getControllers();
         for (const controller of controllers) {
             if (this.isGuarded(controller.metatype)) {
                 const guards = this.getGuards(controller.metatype).map((guard) => {
-                    const prototype = guard['prototype'] ?? guard;
+                    var _a;
+                    const prototype = (_a = guard['prototype']) !== null && _a !== void 0 ? _a : guard;
                     const traceName = `Guard->${controller.name}.${prototype.constructor.name}`;
                     prototype.canActivate = this.wrap(prototype.canActivate, traceName, {
                         controller: controller.name,
@@ -45,7 +45,8 @@ let GuardInjector = class GuardInjector extends BaseTraceInjector_1.BaseTraceInj
             for (const key of keys) {
                 if (this.isGuarded(controller.metatype.prototype[key])) {
                     const guards = this.getGuards(controller.metatype.prototype[key]).map((guard) => {
-                        const prototype = guard['prototype'] ?? guard;
+                        var _a;
+                        const prototype = (_a = guard['prototype']) !== null && _a !== void 0 ? _a : guard;
                         const traceName = `Guard->${controller.name}.${controller.metatype.prototype[key].name}.${prototype.constructor.name}`;
                         prototype.canActivate = this.wrap(prototype.canActivate, traceName, {
                             controller: controller.name,

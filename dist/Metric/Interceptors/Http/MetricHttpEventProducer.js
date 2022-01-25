@@ -15,7 +15,6 @@ const event_emitter_1 = require("@nestjs/event-emitter");
 const ProducerEvent_1 = require("../ProducerEvent");
 const ProducerHttpEvent_1 = require("./ProducerHttpEvent");
 let MetricHttpEventProducer = class MetricHttpEventProducer {
-    eventEmitter;
     constructor(eventEmitter) {
         this.eventEmitter = eventEmitter;
     }

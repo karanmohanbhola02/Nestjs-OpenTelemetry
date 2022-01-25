@@ -18,9 +18,6 @@ const Constants_1 = require("../Constants");
 const sdk_node_1 = require("@opentelemetry/sdk-node");
 const sdk_metrics_base_1 = require("@opentelemetry/sdk-metrics-base");
 let MetricService = class MetricService {
-    sdkConfig;
-    nodeSDK;
-    meterProvider;
     constructor(sdkConfig, nodeSDK) {
         this.sdkConfig = sdkConfig;
         this.nodeSDK = nodeSDK;
@@ -36,7 +33,8 @@ let MetricService = class MetricService {
         return this.meterProvider;
     }
     getLabels() {
-        const attr = this.nodeSDK['_resource']?.attributes ?? {};
+        var _a, _b;
+        const attr = (_b = (_a = this.nodeSDK['_resource']) === null || _a === void 0 ? void 0 : _a.attributes) !== null && _b !== void 0 ? _b : {};
         delete attr['process.command'];
         delete attr['process.executable.name'];
         delete attr['process.pid'];

@@ -14,13 +14,10 @@ const MetricService_1 = require("../MetricService");
 const common_1 = require("@nestjs/common");
 const fs = require("fs");
 let ProcessMaxFdsMetric = class ProcessMaxFdsMetric {
-    metricService;
-    name = 'process_max_fds';
-    description = 'Maximum number of open file descriptors.';
-    valueObserver;
-    maxFds;
     constructor(metricService) {
         this.metricService = metricService;
+        this.name = 'process_max_fds';
+        this.description = 'Maximum number of open file descriptors.';
     }
     async inject() {
         if (this.maxFds === undefined) {

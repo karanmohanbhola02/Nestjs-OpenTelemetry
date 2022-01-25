@@ -15,7 +15,6 @@ const event_emitter_1 = require("@nestjs/event-emitter");
 const ProducerEvent_1 = require("../ProducerEvent");
 const constants_1 = require("@nestjs/microservices/constants");
 let MetricRabbitMQEventProducer = class MetricRabbitMQEventProducer {
-    eventEmitter;
     constructor(eventEmitter) {
         this.eventEmitter = eventEmitter;
     }
@@ -28,10 +27,7 @@ let MetricRabbitMQEventProducer = class MetricRabbitMQEventProducer {
         const time = diff[0] * 1e3 + diff[1] * 1e-6;
         this.eventEmitter.emit(ProducerEvent_1.ProducerEvent.RMQ, {
             time,
-            labels: {
-                exception,
-                ...labels,
-            },
+            labels: Object.assign({ exception }, labels),
         });
     }
     getLabels(context) {

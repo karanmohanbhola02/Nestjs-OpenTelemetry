@@ -14,13 +14,11 @@ const MetricService_1 = require("../MetricService");
 const common_1 = require("@nestjs/common");
 const api_metrics_1 = require("@opentelemetry/api-metrics");
 let ProcessStartTimeMetric = class ProcessStartTimeMetric {
-    metricService;
-    name = 'process_start_time_seconds';
-    description = 'Start time of the process since unix epoch in seconds.';
-    valueObserver;
-    uptimeInSecond = Math.round(Date.now() / 1000 - process.uptime());
     constructor(metricService) {
         this.metricService = metricService;
+        this.name = 'process_start_time_seconds';
+        this.description = 'Start time of the process since unix epoch in seconds.';
+        this.uptimeInSecond = Math.round(Date.now() / 1000 - process.uptime());
     }
     async inject() {
         this.valueObserver = this.metricService

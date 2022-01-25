@@ -16,19 +16,18 @@ const BaseMetricInjector_1 = require("./BaseMetricInjector");
 const MetricService_1 = require("../MetricService");
 const DecoratorType_1 = require("../Decorators/DecoratorType");
 let DecoratorObserverMetricInjector = class DecoratorObserverMetricInjector extends BaseMetricInjector_1.BaseMetricInjector {
-    metricService;
-    modulesContainer;
-    loggerService = new common_1.Logger();
     constructor(metricService, modulesContainer) {
         super(modulesContainer);
         this.metricService = metricService;
         this.modulesContainer = modulesContainer;
+        this.loggerService = new common_1.Logger();
     }
     async inject() {
         this.injectProviders();
         this.injectControllers();
     }
     injectProviders() {
+        var _a, _b;
         const providers = this.getProviders();
         for (const provider of providers) {
             if (this.isDecorated(provider.metatype)) {
@@ -41,8 +40,7 @@ let DecoratorObserverMetricInjector = class DecoratorObserverMetricInjector exte
                     const options = this.getOptions(provider.metatype.prototype[key]);
                     if (options.type !== DecoratorType_1.DecoratorType.OBSERVER)
                         return;
-                    const name = options['name']?.toLowerCase() ??
-                        this.generateName(provider, provider.metatype.prototype[key]);
+                    const name = (_b = (_a = options['name']) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== null && _b !== void 0 ? _b : this.generateName(provider, provider.metatype.prototype[key]);
                     const metric = this.generateMetric(name, options['options']);
                     provider.metatype.prototype[key] = this.wrap(provider.metatype.prototype[key], metric);
                     this.loggerService.log(`Mapped ${name}`, this.constructor.name);
@@ -78,7 +76,8 @@ let DecoratorObserverMetricInjector = class DecoratorObserverMetricInjector exte
         };
     }
     generateName(provider, prototype, options) {
-        return `${options?.name ?? provider.name}_${prototype.name}`.toLowerCase();
+        var _a;
+        return `${(_a = options === null || options === void 0 ? void 0 : options.name) !== null && _a !== void 0 ? _a : provider.name}_${prototype.name}`.toLowerCase();
     }
 };
 DecoratorObserverMetricInjector = __decorate([

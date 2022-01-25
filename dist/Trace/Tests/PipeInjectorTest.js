@@ -8,6 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const testing_1 = require("@nestjs/testing");
 const OpenTelemetryModule_1 = require("../../OpenTelemetryModule");
@@ -28,6 +35,7 @@ describe('Tracing Pipe Injector Test', () => {
         exporterSpy.mockReset();
     });
     it(`should trace global pipe`, async function () {
+        var e_1, _a;
         class HelloPipe {
             async transform(value) { }
         }
@@ -39,11 +47,21 @@ describe('Tracing Pipe Injector Test', () => {
         await app.init();
         const injector = app.get(PipeInjector_1.PipeInjector);
         const providers = injector.getProviders();
-        for await (const provider of providers) {
-            if (typeof provider.token === 'string' &&
-                provider.token.includes(core_1.APP_PIPE)) {
-                await provider.metatype.prototype.transform(1);
+        try {
+            for (var providers_1 = __asyncValues(providers), providers_1_1; providers_1_1 = await providers_1.next(), !providers_1_1.done;) {
+                const provider = providers_1_1.value;
+                if (typeof provider.token === 'string' &&
+                    provider.token.includes(core_1.APP_PIPE)) {
+                    await provider.metatype.prototype.transform(1);
+                }
             }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (providers_1_1 && !providers_1_1.done && (_a = providers_1.return)) await _a.call(providers_1);
+            }
+            finally { if (e_1) throw e_1.error; }
         }
         expect(exporterSpy).toHaveBeenCalledWith(expect.objectContaining({ name: 'Pipe->Global->HelloPipe' }), expect.any(Object));
         await app.close();

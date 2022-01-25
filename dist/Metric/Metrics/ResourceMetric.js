@@ -14,12 +14,10 @@ const MetricService_1 = require("../MetricService");
 const host_metrics_1 = require("@opentelemetry/host-metrics");
 const common_1 = require("@nestjs/common");
 let ResourceMetric = class ResourceMetric {
-    metricService;
-    description = 'ResourceMetric';
-    name = 'ResourceMetric';
-    hostMetrics;
     constructor(metricService) {
         this.metricService = metricService;
+        this.description = 'ResourceMetric';
+        this.name = 'ResourceMetric';
         this.hostMetrics = new host_metrics_1.HostMetrics({
             meterProvider: this.metricService.getProvider(),
             name: this.name,

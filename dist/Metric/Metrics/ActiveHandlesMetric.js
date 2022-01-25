@@ -13,12 +13,10 @@ exports.ActiveHandlesMetric = void 0;
 const MetricService_1 = require("../MetricService");
 const common_1 = require("@nestjs/common");
 let ActiveHandlesMetric = class ActiveHandlesMetric {
-    metricService;
-    name = 'nodejs_active_handles';
-    description = 'Number of active libuv handles grouped by handle type. Every handle type is C++ class name.';
-    valueObserver;
     constructor(metricService) {
         this.metricService = metricService;
+        this.name = 'nodejs_active_handles';
+        this.description = 'Number of active libuv handles grouped by handle type. Every handle type is C++ class name.';
     }
     async inject() {
         if (typeof process['_getActiveHandles'] !== 'function') {

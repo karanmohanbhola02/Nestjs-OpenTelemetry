@@ -14,11 +14,10 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const BaseTraceInjector_1 = require("./BaseTraceInjector");
 let DecoratorInjector = class DecoratorInjector extends BaseTraceInjector_1.BaseTraceInjector {
-    modulesContainer;
-    loggerService = new common_1.Logger();
     constructor(modulesContainer) {
         super(modulesContainer);
         this.modulesContainer = modulesContainer;
+        this.loggerService = new common_1.Logger();
     }
     inject() {
         this.injectProviders();

@@ -16,12 +16,10 @@ const core_1 = require("@nestjs/core");
 const BaseTraceInjector_1 = require("./BaseTraceInjector");
 const ProducerEvent_1 = require("../../Metric/Interceptors/ProducerEvent");
 let EventEmitterInjector = EventEmitterInjector_1 = class EventEmitterInjector extends BaseTraceInjector_1.BaseTraceInjector {
-    modulesContainer;
-    static EVENT_LISTENER_METADATA = 'EVENT_LISTENER_METADATA';
-    loggerService = new common_1.Logger();
     constructor(modulesContainer) {
         super(modulesContainer);
         this.modulesContainer = modulesContainer;
+        this.loggerService = new common_1.Logger();
     }
     inject() {
         const providers = this.getProviders();
@@ -53,6 +51,7 @@ let EventEmitterInjector = EventEmitterInjector_1 = class EventEmitterInjector e
         return metadata.event;
     }
 };
+EventEmitterInjector.EVENT_LISTENER_METADATA = 'EVENT_LISTENER_METADATA';
 EventEmitterInjector = EventEmitterInjector_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [core_1.ModulesContainer])

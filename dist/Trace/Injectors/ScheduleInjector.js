@@ -15,15 +15,10 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const BaseTraceInjector_1 = require("./BaseTraceInjector");
 let ScheduleInjector = ScheduleInjector_1 = class ScheduleInjector extends BaseTraceInjector_1.BaseTraceInjector {
-    modulesContainer;
-    static SCHEDULE_CRON_OPTIONS = 'SCHEDULE_CRON_OPTIONS';
-    static SCHEDULE_INTERVAL_OPTIONS = 'SCHEDULE_INTERVAL_OPTIONS';
-    static SCHEDULE_TIMEOUT_OPTIONS = 'SCHEDULE_TIMEOUT_OPTIONS';
-    static SCHEDULER_NAME = 'SCHEDULER_NAME';
-    loggerService = new common_1.Logger();
     constructor(modulesContainer) {
         super(modulesContainer);
         this.modulesContainer = modulesContainer;
+        this.loggerService = new common_1.Logger();
     }
     inject() {
         const providers = this.getProviders();
@@ -78,6 +73,10 @@ let ScheduleInjector = ScheduleInjector_1 = class ScheduleInjector extends BaseT
         }
     }
 };
+ScheduleInjector.SCHEDULE_CRON_OPTIONS = 'SCHEDULE_CRON_OPTIONS';
+ScheduleInjector.SCHEDULE_INTERVAL_OPTIONS = 'SCHEDULE_INTERVAL_OPTIONS';
+ScheduleInjector.SCHEDULE_TIMEOUT_OPTIONS = 'SCHEDULE_TIMEOUT_OPTIONS';
+ScheduleInjector.SCHEDULER_NAME = 'SCHEDULER_NAME';
 ScheduleInjector = ScheduleInjector_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [core_1.ModulesContainer])

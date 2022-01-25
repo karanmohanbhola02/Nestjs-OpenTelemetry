@@ -17,36 +17,28 @@ const api_metrics_1 = require("@opentelemetry/api-metrics");
 const event_emitter_1 = require("@nestjs/event-emitter");
 const ProducerEvent_1 = require("../../Interceptors/ProducerEvent");
 let RabbitMqRequestDurationSeconds = RabbitMqRequestDurationSeconds_1 = class RabbitMqRequestDurationSeconds {
-    metricService;
-    static metricOptions = {
-        boundaries: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
-        valueType: api_metrics_1.ValueType.DOUBLE,
-    };
-    name = 'rmq_request_duration_seconds';
-    description = 'rmq_request_duration_seconds';
-    valueRecorder;
     constructor(metricService) {
         this.metricService = metricService;
+        this.name = 'rmq_request_duration_seconds';
+        this.description = 'rmq_request_duration_seconds';
     }
     async inject() {
         this.valueRecorder = this.metricService
             .getProvider()
             .getMeter('default')
-            .createValueRecorder(this.name, {
-            ...RabbitMqRequestDurationSeconds_1.metricOptions,
-            description: this.description,
-        });
+            .createValueRecorder(this.name, Object.assign(Object.assign({}, RabbitMqRequestDurationSeconds_1.metricOptions), { description: this.description }));
     }
     onResult(event) {
         this.valueRecorder.record(event.time, Object.assign(event.labels, this.metricService.getLabels()));
     }
     static build(metricOptions) {
-        RabbitMqRequestDurationSeconds_1.metricOptions = {
-            ...RabbitMqRequestDurationSeconds_1.metricOptions,
-            ...metricOptions,
-        };
+        RabbitMqRequestDurationSeconds_1.metricOptions = Object.assign(Object.assign({}, RabbitMqRequestDurationSeconds_1.metricOptions), metricOptions);
         return RabbitMqRequestDurationSeconds_1;
     }
+};
+RabbitMqRequestDurationSeconds.metricOptions = {
+    boundaries: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
+    valueType: api_metrics_1.ValueType.DOUBLE,
 };
 __decorate([
     (0, event_emitter_1.OnEvent)(ProducerEvent_1.ProducerEvent.RMQ),

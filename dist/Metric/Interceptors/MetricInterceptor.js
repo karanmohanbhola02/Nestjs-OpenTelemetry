@@ -19,9 +19,6 @@ const constants_1 = require("@nestjs/microservices/constants");
 const MetricGrpcEventProducer_1 = require("./Grpc/MetricGrpcEventProducer");
 const MetricRabbitMQEventProducer_1 = require("./RabbitMQ/MetricRabbitMQEventProducer");
 let MetricInterceptor = class MetricInterceptor {
-    metricHttpEventProducer;
-    metricGrpcEventProducer;
-    metricRabbitMQEventProducer;
     constructor(metricHttpEventProducer, metricGrpcEventProducer, metricRabbitMQEventProducer) {
         this.metricHttpEventProducer = metricHttpEventProducer;
         this.metricGrpcEventProducer = metricGrpcEventProducer;
@@ -78,9 +75,10 @@ let MetricInterceptor = class MetricInterceptor {
         }
     }
     getException(exception) {
+        var _a;
         if (!exception)
             return '';
-        if (exception.constructor?.name) {
+        if ((_a = exception.constructor) === null || _a === void 0 ? void 0 : _a.name) {
             return exception.constructor.name;
         }
         else if (exception['name']) {

@@ -15,11 +15,10 @@ const core_1 = require("@nestjs/core");
 const BaseTraceInjector_1 = require("./BaseTraceInjector");
 const constants_1 = require("@nestjs/common/constants");
 let PipeInjector = class PipeInjector extends BaseTraceInjector_1.BaseTraceInjector {
-    modulesContainer;
-    loggerService = new common_1.Logger();
     constructor(modulesContainer) {
         super(modulesContainer);
         this.modulesContainer = modulesContainer;
+        this.loggerService = new common_1.Logger();
     }
     inject() {
         const controllers = this.getControllers();
@@ -52,7 +51,8 @@ let PipeInjector = class PipeInjector extends BaseTraceInjector_1.BaseTraceInjec
         }
     }
     wrapPipe(pipe, controller, prototype) {
-        const pipeProto = pipe['prototype'] ?? pipe;
+        var _a;
+        const pipeProto = (_a = pipe['prototype']) !== null && _a !== void 0 ? _a : pipe;
         if (this.isAffected(pipeProto.transform))
             return pipe;
         const traceName = `Pipe->${controller.name}.${prototype.name}.${pipeProto.constructor.name}`;

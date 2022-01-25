@@ -17,12 +17,12 @@ const common_1 = require("@nestjs/common");
 const Constants_1 = require("./Constants");
 const sdk_node_1 = require("@opentelemetry/sdk-node");
 let OpenTelemetryService = class OpenTelemetryService {
-    sdk;
     constructor(sdk) {
         this.sdk = sdk;
     }
     async beforeApplicationShutdown(signal) {
-        await this.sdk?.shutdown();
+        var _a;
+        await ((_a = this.sdk) === null || _a === void 0 ? void 0 : _a.shutdown());
     }
 };
 OpenTelemetryService = __decorate([

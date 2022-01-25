@@ -13,12 +13,10 @@ exports.ActiveHandlesTotalMetric = void 0;
 const MetricService_1 = require("../MetricService");
 const common_1 = require("@nestjs/common");
 let ActiveHandlesTotalMetric = class ActiveHandlesTotalMetric {
-    metricService;
-    name = 'nodejs_active_handles_total';
-    description = 'Total number of active handles.';
-    valueObserver;
     constructor(metricService) {
         this.metricService = metricService;
+        this.name = 'nodejs_active_handles_total';
+        this.description = 'Total number of active handles.';
     }
     async inject() {
         if (typeof process['_getActiveHandles'] !== 'function') {

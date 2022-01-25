@@ -15,7 +15,6 @@ const event_emitter_1 = require("@nestjs/event-emitter");
 const ProducerEvent_1 = require("../ProducerEvent");
 const constants_1 = require("@nestjs/microservices/constants");
 let MetricGrpcEventProducer = class MetricGrpcEventProducer {
-    eventEmitter;
     constructor(eventEmitter) {
         this.eventEmitter = eventEmitter;
     }
@@ -31,11 +30,7 @@ let MetricGrpcEventProducer = class MetricGrpcEventProducer {
         const time = diff[0] * 1e3 + diff[1] * 1e-6;
         this.eventEmitter.emit(ProducerEvent_1.ProducerEvent.GRPC, {
             time,
-            labels: {
-                exception,
-                status: grpcStream.sentTrailers['grpc-status'],
-                ...labels,
-            },
+            labels: Object.assign({ exception, status: grpcStream.sentTrailers['grpc-status'] }, labels),
         });
     }
     getLabels(context) {
